@@ -640,7 +640,6 @@ int main(int argc, char *argv[])
 
     // 启动ROS回调循环（阻塞，直到节点退出）
      
-
     //4. 测试模式：循环读取单张图片（调试用）
     // namedWindow("bgr");
     // namedWindow("hsv");
