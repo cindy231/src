@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(task1)
+project(image_msgs)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -8,14 +8,17 @@ project(task1)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  cv_bridge
+  message_generation
+  message_runtime
   roscpp
-  image_msgs
+  rospy
+  std_msgs
+  geometry_msgs
 )
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
-find_package(OpenCV REQUIRED)   #添加opencv包，防止编译失败
+
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -47,11 +50,13 @@ find_package(OpenCV REQUIRED)   #添加opencv包，防止编译失败
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+add_message_files(
+  FILES
+  Point2D.msg
+  FaceInfo.msg
+  MultiFaceDate.msg
+
+)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -68,10 +73,10 @@ find_package(OpenCV REQUIRED)   #添加opencv包，防止编译失败
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
-# )
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -104,8 +109,8 @@ find_package(OpenCV REQUIRED)   #添加opencv包，防止编译失败
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES task1
-#  CATKIN_DEPENDS cv_bridge roscpp
+#  LIBRARIES image_msgs
+CATKIN_DEPENDS message_generation message_runtime roscpp rospy std_msgs 
 #  DEPENDS system_lib
 )
 
@@ -118,12 +123,11 @@ catkin_package(
 include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
-  ${OpenCv_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/task1.cpp
+#   src/${PROJECT_NAME}/image_msgs.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -134,7 +138,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/task1_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/image_msgs_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -198,30 +202,10 @@ include_directories(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_task1.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_image_msgs.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-
-
-# 设置C++标准为C++17
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-add_executable(cv_image_node src/cv_image_node.cpp)
-add_dependencies(cv_image_node image_msgs_generate_messages_cpp)
-add_dependencies(cv_image_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(cv_image_node 
-  PRIVATE 
-  ${catkin_LIBRARIES} 
-  ${OpenCV_LIBS}
-  stdc++fs
-)
-
-
-
-
-

@@ -6,9 +6,9 @@
         "limitSymbolsToIncludedHeaders": false
       },
       "includePath": [
-        "/home/qq/catkin_ws/devel/include/**",
         "/home/qq/catkin_ws/devel_isolated/image_msgs/include/**",
         "/opt/ros/noetic/include/**",
+        "/home/qq/catkin_ws/devel/include/**",
         "/home/qq/catkin_ws/src/image_msgs/include/**",
         "/home/qq/catkin_ws/src/task1/include/**",
         "/home/qq/catkin_ws/src/task2/include/**",
@@ -17,8 +17,8 @@
       "name": "ROS",
       "intelliSenseMode": "gcc-x64",
       "compilerPath": "/usr/bin/gcc",
-      "cStandard": "gnu17",
-      "cppStandard": "c++17"
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
     }
   ],
   "version": 4

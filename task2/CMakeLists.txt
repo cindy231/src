@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(task1)
+project(task2)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -8,9 +8,18 @@ project(task1)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  control_toolbox
   cv_bridge
+  dynamic_reconfigure
+  geometry_msgs
+  image_transport
   roscpp
+  sensor_msgs
+  tf2
+  tf2_geometry_msgs
+  tf2_ros
   image_msgs
+  dynamic_reconfigure
 )
 
 ## System dependencies are found with CMake's conventions
@@ -70,7 +79,7 @@ find_package(OpenCV REQUIRED)   #添加opencv包，防止编译失败
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
+#   geometry_msgs#   sensor_msgs#   tf2_geometry_msgs
 # )
 
 ################################################
@@ -88,10 +97,9 @@ find_package(OpenCV REQUIRED)   #添加opencv包，防止编译失败
 ##     and list every .cfg file to be processed
 
 ## Generate dynamic reconfigure parameters in the 'cfg' folder
-# generate_dynamic_reconfigure_options(
-#   cfg/DynReconf1.cfg
-#   cfg/DynReconf2.cfg
-# )
+generate_dynamic_reconfigure_options(
+  cfg/PID.cfg 
+)
 
 ###################################
 ## catkin specific configuration ##
@@ -104,8 +112,8 @@ find_package(OpenCV REQUIRED)   #添加opencv包，防止编译失败
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES task1
-#  CATKIN_DEPENDS cv_bridge roscpp
+#  LIBRARIES task2
+#  CATKIN_DEPENDS control_toolbox cv_bridge dynamic_reconfigure geometry_msgs image_transport roscpp sensor_msgs tf2 tf2_geometry_msgs tf2_ros
 #  DEPENDS system_lib
 )
 
@@ -119,11 +127,12 @@ include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
   ${OpenCv_INCLUDE_DIRS}
+
 )
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/task1.cpp
+#   src/${PROJECT_NAME}/task2.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -134,7 +143,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/task1_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/task2_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -198,7 +207,7 @@ include_directories(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_task1.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_task2.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
@@ -207,21 +216,15 @@ include_directories(
 # catkin_add_nosetests(test)
 
 
-# 设置C++标准为C++17
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-add_executable(cv_image_node src/cv_image_node.cpp)
-add_dependencies(cv_image_node image_msgs_generate_messages_cpp)
-add_dependencies(cv_image_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(cv_image_node 
-  PRIVATE 
-  ${catkin_LIBRARIES} 
+add_executable(tf_pub_node src/tf_pub_node.cpp)
+add_dependencies(tf_pub_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg)
+target_link_libraries(tf_pub_node
+  ${catkin_LIBRARIES}
   ${OpenCV_LIBS}
-  stdc++fs
+  
 )
 
-
-
-
-
+add_executable(arm_grasp_node src/arm_grasp_node.cpp)
+target_link_libraries(arm_grasp_node
+  ${catkin_LIBRARIES}
+)
