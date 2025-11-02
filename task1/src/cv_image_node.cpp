@@ -625,39 +625,16 @@ int main(int argc, char *argv[])
 
     Image image(argv[1],"cv_image_node");
     ros::spin();
+    
+//    namedWindow("bgr");
+//    namedWindow("hsv");
+    //namedWindow("re");
 
-    // // 1. 加载模板（需确保模板目录路径正确）
-    // loadTemplates("/opt/ep_ws/src/rmus_solution/task1/temple");
-    // if (templates.empty()) 
-    // {
-    //     ROS_ERROR("Template is empty!");
-    //     return -1;
-    // }
-
+//    while (1)
+//    {
+//         imageCallback("/home/qq/catkin_ws/src/task1/picture/target1.png");
+//    }
    
-
-    // // ros::Rate rate(10);
-
-    // 启动ROS回调循环（阻塞，直到节点退出）
-     
-
-    //4. 测试模式：循环读取单张图片（调试用）
-    // namedWindow("bgr");
-    // namedWindow("hsv");
-    // while (ros::ok())
-    // {
-    //     //imageCallback("/home/qq/catkin_ws/src/task1/picture/target11.png");
-    //     image_msgs::FaceInfo msgs;  // 每次循环创建新消息
-    //     //imageCallback("/home/qq/catkin_ws/src/task1/picture/target5.png",msgs,target);
-    //     pub.publish(msgs);  // 发布消息
-    //     //rate.sleep();
-    //     ros::spinOnce();   // 保持节点活跃
-        
-
-    // }
-
-    // //释放窗口资源
-    // destroyAllWindows();
     return 0;
 }
 
