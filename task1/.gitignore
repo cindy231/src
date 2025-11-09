@@ -1,0 +1,18 @@
+# 编译生成的目录（通常在工作空间根目录，但若功能包内有则过滤）
+build/
+devel/
+install/
+
+# 临时文件
+*.pyc
+*.swp
+*.swo
+*~
+
+# ROS 日志
+log/
+
+# IDE 配置文件（如 VS Code、PyCharm 等，按需添加）
+.vscode/
+.idea/
+
