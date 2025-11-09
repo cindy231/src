@@ -1,0 +1,6 @@
+<launch>
+    <node pkg = "task1" type = "cv_image_node" name = "cv_image_node" output = "screen">
+    <param name="number" value="2" type="string" />
+    </node>
+    <node pkg = "task2" type = "tf_pub_node" name = "tf_pub_node" output = "screen"/>
+</launch>

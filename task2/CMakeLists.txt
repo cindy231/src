@@ -223,8 +223,3 @@ target_link_libraries(tf_pub_node
   ${OpenCV_LIBS}
   
 )
-
-add_executable(arm_grasp_node src/arm_grasp_node.cpp)
-target_link_libraries(arm_grasp_node
-  ${catkin_LIBRARIES}
-)
